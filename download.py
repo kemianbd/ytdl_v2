@@ -1,6 +1,7 @@
 import os
 from pytube import YouTube
 import moviepy.editor as mp
+import time
 
 
 def dl_convert(yturl, dlpath, vid, bit):
@@ -40,6 +41,8 @@ def dl_convert(yturl, dlpath, vid, bit):
         clip = mp.VideoFileClip(dlpath + '\\' + ytitle + '.mp4')
         clip.audio.write_audiofile(dlpath + '\\' + ytitle + '.mp3', bitrate=bit)
         clip.reader.close()
+        clip = None
+        time.sleep(2)
 
         # Delete video if not requested
         if vid == 0:

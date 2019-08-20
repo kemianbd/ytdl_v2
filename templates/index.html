@@ -7,5 +7,30 @@
 <div class="page-header">
     <h1>YTDL Placeholder</h1>
 </div>
-{{ wtf.quick_form(form) }}
+<div id="loading" class="modal"><img src="/static/loading.gif" title="Loading" /></div>
+<!-- {{ wtf.quick_form(form, id="convert") }} -->
+<form class="form form-horizontal" method="post" role="form">
+    {{ form.hidden_tag() }}
+    {{ wtf.form_errors(form) }}
+    {{ wtf.form_field(form.urls) }}
+    {{ wtf.form_field(form.bit) }}
+    {{ wtf.form_field(form.vid) }}
+    {{ wtf.form_field(form.file) }}
+    <p id="convert">{{ wtf.form_field(form.run) }}</p>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var form = $('#convert');
+    form.click(function(){
+        $('#loading').show();
+        form.ajax({
+            complete:function(){
+                $('#loading').hide();
+            }
+        });
+    });
+</script>
 {% endblock %}

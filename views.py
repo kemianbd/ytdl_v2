@@ -10,5 +10,4 @@ def index():
     form = URLForm()
     if form.validate_on_submit():
         dl_convert(form.urls.data, form.file.data, form.vid.data, form.bit.data)
-        print(form.urls.data)
     return render_template('index.html', form=form)

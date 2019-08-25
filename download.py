@@ -4,31 +4,27 @@ import moviepy.editor as mp
 import time
 
 
-def dl_convert(yturl, dlpath, vid, bit):
+class Convert:
+    def __init__(self, yturl, dlpath, vid, bit):
+        self.yturl = yturl
+        self.dlpath = dlpath
+        self.vid = vid
+        self.bit = bit
+        self.err = False
 
-    # Split entries
-    ytget = yturl.splitlines()
-
-    # Loop through all URLs
-    err_cnt = 0
-    for i in range(0, len(ytget)):
-
-        # Skip blank line
-        if ytget[i] == "":
-            continue
+    def dl_convert(self):
 
         # Grab video from youtube
         try:
-            ytdl = YouTube(ytget[i])
+            ytdl = YouTube(self.yturl)
         except:
-            err_cnt += 1
-            print('File', i+1, 'could not be downloaded, make sure the YouTube link is correct')
-            continue
+            self.err = True
+            print('File could not be downloaded, make sure the YouTube link is correct')
 
         # Get attributes of video
         ytitle = ytdl.title
         print('NOW DOWNLOADING: ' + ytitle + '\n')
-        ytdl.streams.filter(file_extension='mp4').first().download(dlpath)
+        ytdl.streams.filter(file_extension='mp4').first().download(self.dlpath)
 
         # Clean title
         for badchar in ['\"', '#', '$', '%', '\'', '*', ',', '.', '/', ':',
@@ -38,17 +34,21 @@ def dl_convert(yturl, dlpath, vid, bit):
 
         # Convert video to mp3
         print('\n')
-        clip = mp.VideoFileClip(dlpath + '\\' + ytitle + '.mp4')
-        clip.audio.write_audiofile(dlpath + '\\' + ytitle + '.mp3', bitrate=bit)
+        clip = mp.VideoFileClip(self.dlpath + '\\' + ytitle + '.mp4')
+        clip.audio.write_audiofile(self.dlpath + '\\' + ytitle + '.mp3', bitrate=self.bit)
         clip.reader.close()
         clip = None
         time.sleep(2)
 
         # Delete video if not requested
-        if vid == 0:
-            os.remove(dlpath + '\\' + ytitle + '.mp4')
+        if self.vid == 0:
+            os.remove(self.dlpath + '\\' + ytitle + '.mp4')
 
-    if err_cnt == 0:
-        return 'All downloads complete'
-    else:
-        return 'At least one file did not download successfully'
+        if not self.err:
+            return 'All downloads complete'
+        else:
+            return 'At least one file did not download successfully'
+
+    @property
+    def yt_title(self):
+        return YouTube(self.yturl).title

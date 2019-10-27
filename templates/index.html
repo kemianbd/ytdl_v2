@@ -26,11 +26,6 @@
     var form = $('#convert');
     form.click(function(){
         $('#loading').show();
-        form.ajax({
-            complete:function(){
-                $('#loading').hide();
-            }
-        });
     });
 </script>
 {% endblock %}

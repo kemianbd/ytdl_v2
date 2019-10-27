@@ -1,7 +1,6 @@
 import os
 from pytube import YouTube
-import moviepy.editor as mp
-import time
+import subprocess
 
 
 class Convert:
@@ -33,12 +32,9 @@ class Convert:
                 ytitle = ytitle.replace(badchar, "")
 
         # Convert video to mp3
-        print('\n')
-        clip = mp.VideoFileClip(self.dlpath + '\\' + ytitle + '.mp4')
-        clip.audio.write_audiofile(self.dlpath + '\\' + ytitle + '.mp3', bitrate=self.bit)
-        clip.reader.close()
-        clip = None
-        time.sleep(2)
+        command = f"ffmpeg -i \"{self.dlpath}" + f"{ytitle}" + ".mp4\"" f" -b:a {self.bit}" \
+            f" -vn \"{self.dlpath}" + f"{ytitle}" + ".mp3\""
+        subprocess.call(command, shell=True)
 
         # Delete video if not requested
         if self.vid == 0:

@@ -1,5 +1,4 @@
 from flask import render_template, send_file
-import zipfile
 
 from . import main
 from .forms import URLForm
@@ -12,6 +11,7 @@ def index():
     if form.validate_on_submit():
         links = form.urls.data.splitlines()
         for yturl in links:
-            ytget = Convert(yturl, form.file.data, form.vid.data, form.bit.data)
+            ytget = Convert(yturl, form.vid.data, form.bit.data)
             ytget.dl_convert()
+        return send_file(ytget.zip_files(), attachment_filename='downloads.zip', as_attachment=True)
     return render_template('index.html', form=form)

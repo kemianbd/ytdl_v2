@@ -13,5 +13,6 @@ def index():
         for yturl in links:
             ytget = Convert(yturl, form.vid.data, form.bit.data)
             ytget.dl_convert()
-        return send_file(ytget.zip_files(), attachment_filename='downloads.zip', as_attachment=True)
+            file, name = ytget.zip_files()
+        return send_file(file, attachment_filename=name, as_attachment=True)
     return render_template('index.html', form=form)

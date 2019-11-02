@@ -21,13 +21,14 @@
 </div>
 <div id="download" hidden>
     <br>
-    <a href="{{ url_for('app.download') }}">
-        <button id="activate">Download!</button>
-    </a>
+    <form id="start-dl" class="form" method="post" role="form">
+        {{ dl_form.hidden_tag() }}
+        <div id="dl" class="trigger">{{ wtf.form_field(dl_form.dl) }}</div>
+    </form>
 </div>
 <div id="err" hidden>
     <br>
-    <p>There was an error</p>
+    <p><font color="red" size="12">There was an error</font></p>
 </div>
 {% endblock %}
 
@@ -37,6 +38,8 @@
     var form = $('#submit');
     form.click(function(e){
         var url = "{{ url_for('app.convert') }}";
+        $('#download').hide();
+        $('#err').hide();
         $('#loading').show();
         $.ajax({
             type: "POST",
@@ -45,13 +48,13 @@
             success:function(){
                 $('#loading').hide();
                 $('#download').show();
+            },
+            error:function(){
+                $('#loading').hide();
+                $('#err').show();
             }
         });
         e.preventDefault();
-    });
-
-    $('#activate').click(function(event){
-        event.preventDefault();
     });
 </script>
 {% endblock %}

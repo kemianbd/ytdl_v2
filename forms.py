@@ -9,3 +9,7 @@ class URLForm(FlaskForm):
                               choices=[('192k', '192k'), ('256k', '256k'), ('320k', '320k')], default='256k')
     vid = wtforms.BooleanField('Keep video?')
     run = wtforms.SubmitField('Run')
+
+
+class DLForm(FlaskForm):
+    dl = wtforms.SubmitField('Download')

@@ -9,22 +9,49 @@
 </div>
 <div id="loading" class="modal"><img src="/static/loading.gif" title="Loading" /></div>
 <!-- {{ wtf.quick_form(form, id="convert") }} -->
-<form class="form form-horizontal" method="post" role="form">
-    {{ form.hidden_tag() }}
-    {{ wtf.form_errors(form) }}
-    {{ wtf.form_field(form.urls) }}
-    {{ wtf.form_field(form.bit) }}
-    {{ wtf.form_field(form.vid) }}
-    <div id="convert"><br />{{ wtf.form_field(form.run) }}</div>
-</form>
+<div>
+    <form id="convert" class="form form-horizontal" method="post" role="form">
+        {{ form.hidden_tag() }}
+        {{ wtf.form_errors(form) }}
+        {{ wtf.form_field(form.urls) }}
+        {{ wtf.form_field(form.bit) }}
+        {{ wtf.form_field(form.vid) }}
+        <div id="submit" class="trigger"><br />{{ wtf.form_field(form.run) }}</div>
+    </form>
+</div>
+<div id="download" hidden>
+    <br>
+    <a href="{{ url_for('app.download') }}">
+        <button id="activate">Download!</button>
+    </a>
+</div>
+<div id="err" hidden>
+    <br>
+    <p>There was an error</p>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    var form = $('#convert');
-    form.click(function(){
+    var form = $('#submit');
+    form.click(function(e){
+        var url = "{{ url_for('app.convert') }}";
         $('#loading').show();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $('#convert').serialize(),
+            success:function(){
+                $('#loading').hide();
+                $('#download').show();
+            }
+        });
+        e.preventDefault();
+    });
+
+    $('#activate').click(function(event){
+        event.preventDefault();
     });
 </script>
 {% endblock %}

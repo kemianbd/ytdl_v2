@@ -2,16 +2,16 @@ from flask import Flask, Blueprint
 from flask_bootstrap import Bootstrap
 
 bootstrap = Bootstrap()
-main = Blueprint('main', __name__)
+app = Blueprint('app', __name__)
 
 
 def create_app():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = '9348tuySDF4i9023u4'
-    bootstrap.init_app(app)
+    main = Flask(__name__)
+    main.config['SECRET_KEY'] = '9348tuySDF4i9023u4'
+    bootstrap.init_app(main)
 
-    app.register_blueprint(main)
+    main.register_blueprint(app)
 
-    return app
+    return main
 
 from . import views

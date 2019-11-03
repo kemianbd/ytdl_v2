@@ -26,3 +26,8 @@ def convert():
                 ytget = Convert(yturl, form.vid.data, form.bit.data)
                 ytget.dl_convert()
     return render_template('index.html', form=form, dl_form=dl_form)
+
+
+@app.route('/pdf')
+def pdf():
+    return render_template('pdfcombine.html')

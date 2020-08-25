@@ -12,10 +12,9 @@ imageio-ffmpeg==0.3.0
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-numpy==1.16.2
-Pillow==6.2.1
+numpy==1.19.1
+Pillow==7.2.0
 proglog==0.1.9
-pytube==9.5.1
 requests==2.22.0
 tqdm==4.33.0
 urllib3==1.25.3

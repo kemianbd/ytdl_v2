@@ -10,8 +10,8 @@ def index():
     form = URLForm()
     dl_form = DLForm()
     if dl_form.validate_on_submit():
-        file, name = util.zip_files()
-        return send_file(file, attachment_filename=name, as_attachment=True, mimetype='audio/mpeg')
+        file, name, mime = util.zip_files()
+        return send_file(file, attachment_filename=name, as_attachment=True, mimetype=mime)
     return render_template('index.html', form=form, dl_form=dl_form)
 
 
@@ -23,8 +23,8 @@ def convert():
         if form.validate_on_submit():
             links = form.urls.data.splitlines()
             ytget = Convert(form.vid.data, form.bit.data)
+            ytget.clear_files()
             for yturl in links:
-                ytget.clear_files()
                 ytget.dl_convert(yturl)
     return render_template('index.html', form=form, dl_form=dl_form)
 

@@ -17,8 +17,10 @@ def zip_files():
                 zf.write(file, os.path.basename(file))
         memory_file.seek(0)
         name = 'downloads.zip'
-        return memory_file, name
+        mime = 'audio/mpeg'
+        return memory_file, name, mime
     else:
         file = file_paths[0]
         name = os.path.basename(file_paths[0])
-        return file, name
+        mime = 'application/zip'
+        return file, name, mime
